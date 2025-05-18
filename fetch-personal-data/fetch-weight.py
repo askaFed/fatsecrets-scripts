@@ -1,63 +1,116 @@
-import datetime
-import pandas as pd
-from dateutil.relativedelta import relativedelta
-from requests_oauthlib import OAuth1Session
+import os
+import time
+import uuid
+import hmac
+import base64
+import hashlib
+import urllib.parse
+import requests
+import csv
+from datetime import datetime
+from dotenv import load_dotenv
 
-# === CREDENTIALS (replace with your actual values) ===
-CONSUMER_KEY = '7c6bfe0a5c1a4937b8bbc21097e8060c'
-CONSUMER_SECRET = '103b6a8e1bcb4757aaa10732aca57498'
-ACCESS_TOKEN = '71f101c43bc3431193545c72f5a5b51e'
-ACCESS_SECRET = '706e82306ddd4d6bb0749638a4a23ff1'
+# Load .env
+load_dotenv()
 
-# === API CONFIGURATION ===
-BASE_URL = 'https://platform.fatsecret.com/rest/server.api'
-START_DATE = datetime.date(2023, 1, 1)  # Adjust as needed
-END_DATE = datetime.date.today()
+CONSUMER_KEY = os.getenv("CONSUMER_KEY")
+CONSUMER_SECRET = os.getenv("CONSUMER_SECRET")
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+ACCESS_SECRET = os.getenv("ACCESS_SECRET")
 
-# === OAuth1 Session ===
-oauth = OAuth1Session(
-    CONSUMER_KEY,
-    client_secret=CONSUMER_SECRET,
-    resource_owner_key=ACCESS_TOKEN,
-    resource_owner_secret=ACCESS_SECRET
-)
+API_URL = "https://platform.fatsecret.com/rest/server.api"
 
-def fetch_month_weights(date: datetime.date):
-    # Convert date to epoch days (FatSecret expects days since Jan 1, 1970)
-    epoch_days = (date - datetime.date(1970, 1, 1)).days
+def percent_encode(val):
+    return urllib.parse.quote(str(val), safe='~')
 
-    params = {
-        'method': 'weight.get_month.v2',
-        'format': 'json',
-        'date': str(epoch_days)
+def generate_oauth_signature(method, base_url, params, consumer_secret, token_secret):
+    sorted_params = sorted((percent_encode(k), percent_encode(v)) for k, v in params.items())
+    param_str = '&'.join(f"{k}={v}" for k, v in sorted_params)
+
+    base_elems = [method.upper(), percent_encode(base_url), percent_encode(param_str)]
+    base_string = '&'.join(base_elems)
+
+    signing_key = f"{percent_encode(consumer_secret)}&{percent_encode(token_secret)}"
+    hashed = hmac.new(signing_key.encode(), base_string.encode(), hashlib.sha1)
+    return base64.b64encode(hashed.digest()).decode()
+
+def get_weight_data_for_month(date_obj):
+    epoch_days = (date_obj - datetime(1970, 1, 1)).days
+
+    method = "GET"
+    base_url = API_URL
+    extra_params = {
+        "method": "weights.get_month.v2",
+        "format": "json",
+        "date": epoch_days,
     }
 
-    response = oauth.get(BASE_URL, params=params)
-    response.raise_for_status()
-    data = response.json()
-    return data.get('month', {}).get('day', [])
+    oauth_params = {
+        "oauth_consumer_key": CONSUMER_KEY,
+        "oauth_token": ACCESS_TOKEN,
+        "oauth_nonce": str(uuid.uuid4().hex),
+        "oauth_signature_method": "HMAC-SHA1",
+        "oauth_timestamp": str(int(time.time())),
+        "oauth_version": "1.0",
+    }
 
-def main():
-    all_entries = []
-    date_ptr = START_DATE
+    all_params = {**extra_params, **oauth_params}
+    signature = generate_oauth_signature(method, base_url, all_params, CONSUMER_SECRET, ACCESS_SECRET)
+    oauth_params["oauth_signature"] = signature
+    all_params = {**extra_params, **oauth_params}
 
-    while date_ptr <= END_DATE:
-        print(f"Fetching weight data for {date_ptr.strftime('%Y-%m')}")
-        try:
-            month_data = fetch_month_weights(date_ptr)
-            all_entries.extend(month_data)
-        except Exception as e:
-            print(f"Error on {date_ptr.strftime('%Y-%m')}: {e}")
-        date_ptr += relativedelta(months=1)
+    response = requests.get(API_URL, params=all_params)
 
-    if all_entries:
-        df = pd.DataFrame(all_entries)
-        df['date'] = pd.to_datetime(df['date_int'], unit='D', origin='unix')
-        df = df.sort_values('date')
-        df.to_csv('weight_data.csv', index=False)
-        print("✅ Exported to weight_data.csv")
-    else:
-        print("⚠️ No data found.")
+    try:
+        data = response.json()
+    except Exception as e:
+        print(f"❌ Failed to parse response for {date_obj.strftime('%Y-%m')}: {e}")
+        return []
 
-if __name__ == '__main__':
-    main()
+    if "error" in data:
+        print(f"❌ API Error for {date_obj.strftime('%Y-%m')}: {data['error'].get('message')}")
+        return []
+
+    days = data.get("month", {}).get("day", [])
+    results = []
+    for entry in days:
+        date = datetime.utcfromtimestamp(int(entry["date_int"]) * 86400).strftime("%Y-%m-%d")
+        weight = entry.get("weight_kg")
+        if weight is not None:
+            # Format number with comma for decimal
+            weight_str = f"{float(weight):.2f}".replace(".", ",")
+            results.append((date, weight_str))
+
+    return results
+
+def fetch_all_weights(start_year=2020):
+    current = datetime(start_year, 1, 1)
+    today = datetime.today()
+    all_results = []
+
+    while current <= today:
+        print(f"📆 Fetching data for {current.strftime('%Y-%m')}...")
+        entries = get_weight_data_for_month(current)
+        all_results.extend(entries)
+        # Go to the next month
+        if current.month == 12:
+            current = datetime(current.year + 1, 1, 1)
+        else:
+            current = datetime(current.year, current.month + 1, 1)
+        time.sleep(1)
+
+    if not all_results:
+        print("⚠️ No weight entries found.")
+        return
+
+    sorted_data = sorted(all_results)
+
+    with open("/output/weight_data.csv", "w", newline="") as f:
+        writer = csv.writer(f, delimiter=';')
+        writer.writerow(["Date", "Weight_kg"])
+        writer.writerows(sorted_data)
+
+    print(f"\n✅ Saved {len(sorted_data)} entries to weight_data.csv")
+
+if __name__ == "__main__":
+    fetch_all_weights(start_year=2020)

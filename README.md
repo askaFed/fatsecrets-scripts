@@ -1,7 +1,7 @@
 Install packages
 
 ```shell
-python3 -m pip install --user pandas requests requests-oauthlib
+python3 -m pip install --user pandas requests requests-oauthlib python-dotenv 
 
 ```
 

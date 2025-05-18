@@ -1,0 +1,53 @@
+### Vim stuff ###
+# swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+
+### Python stuff ###
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+*,cover
+.cache
+.coverage
+.coverage.*
+.hypothesis/
+.pylintrc
+.pytest_cache/
+.tox/
+assets/
+coverage.html/
+coverage.xml
+htmlcov/
+nosetests.xml
+report.html
+
+# virtualenv
+.venv/
+
+# zip files
+*.zip
+
+# dist folder
+dist
+
+# logs
+logs/*
+.idea/
+
+### Python build artifacts ###
+build/
+*.egg-info
+
+output/
