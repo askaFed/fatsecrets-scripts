@@ -1,0 +1,1 @@
+INSERT INTO personal_data.users (fatsecret_user_id) values ('ya_aska')
