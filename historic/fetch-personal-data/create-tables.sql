@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS personal_data.weights (
 );
 
 -- Food entries (calories intake)
+-- Updated Food entries table
+-- Updated Food entries table
 CREATE TABLE IF NOT EXISTS personal_data.food_entries (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES personal_data.users(id),
@@ -23,11 +25,27 @@ CREATE TABLE IF NOT EXISTS personal_data.food_entries (
     meal_type TEXT,
     food_name TEXT,
     calories NUMERIC(6, 2),
+    carbohydrate NUMERIC(6, 2),
+    protein NUMERIC(6, 2),
+    fat NUMERIC(6, 2),
+    saturated_fat NUMERIC(6, 2),
+    sugar NUMERIC(6, 2),
+    fiber NUMERIC(6, 2),
+    calcium NUMERIC(6, 2),
+    iron NUMERIC(6, 2),
+    cholesterol NUMERIC(6, 2),
+    sodium NUMERIC(6, 2),
+    vitamin_a NUMERIC(6, 2),
+    vitamin_c NUMERIC(6, 2),
+    monounsaturated_fat NUMERIC(6, 3),
+    polyunsaturated_fat NUMERIC(6, 3),
     quantity NUMERIC(6, 2),
     unit TEXT,
     fatsecret_food_id TEXT,
+    fatsecret_food_entry_id TEXT UNIQUE,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 
 -- Exercise entries (calories burned)
 CREATE TABLE IF NOT EXISTS personal_data.exercise_entries (

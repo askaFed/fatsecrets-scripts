@@ -125,23 +125,45 @@ def insert_food_entries(entries):
             values.append((
                 user_id,
                 datetime.utcfromtimestamp(int(entry["date_int"]) * 86400).date(),
-                entry.get("meal", ""),
-                entry.get("food_name", ""),
-                float(entry.get("calories", 0)),
-                float(entry.get("number_of_units", 1)),
-                entry.get("metric_serving_unit", ""),
-                entry.get("food_id", "")
+                entry.get('meal'),
+                entry.get('food_entry_name'),
+                entry.get('calories'),
+                entry.get('carbohydrate'),
+                entry.get('protein'),
+                entry.get('fat'),
+                entry.get('saturated_fat'),
+                entry.get('sugar'),
+                entry.get('fiber'),
+                entry.get('calcium'),
+                entry.get('iron'),
+                entry.get('cholesterol'),
+                entry.get('sodium'),
+                entry.get('vitamin_a'),
+                entry.get('vitamin_c'),
+                entry.get('monounsaturated_fat'),
+                entry.get('polyunsaturated_fat'),
+                entry.get('number_of_units'),
+                entry.get('unit'),
+                entry.get('food_id'),
+                entry.get('food_entry_id')  # This is the unique one
             ))
         except Exception as e:
             print(f"⚠️ Skipping entry due to error: {e}")
 
-    insert_sql = """
-        INSERT INTO personal_data.food_entries (
-            user_id, date, meal_type, food_name, calories, quantity, unit, fatsecret_food_id
-        )
-        VALUES %s;
-    """
+        insert_sql = """
+                INSERT INTO personal_data.food_entries (
+                    user_id, date, meal_type, food_name, calories,
+                    carbohydrate, protein, fat, saturated_fat, sugar, fiber,
+                    calcium, iron, cholesterol, sodium, vitamin_a, vitamin_c,
+                    monounsaturated_fat, polyunsaturated_fat,
+                    quantity, unit, fatsecret_food_id, fatsecret_food_entry_id
+                ) VALUES %s
+                ON CONFLICT (fatsecret_food_entry_id) DO NOTHING
+            """
 
+        exec_sql(insert_sql, values)
+
+def exec_sql(insert_sql, values):
     try:
         conn = psycopg2.connect(
             host=PG_HOST, port=PG_PORT, user=PG_USER,
@@ -159,7 +181,8 @@ def insert_food_entries(entries):
 
 if __name__ == "__main__":
     print("📥 Fetching food entries...")
-    start = datetime(2024, 1, 1)
-    end = datetime(2025, 1, 1)
+    # start = datetime(2025, 1, 1)
+    start = datetime(2025, 1, 1)
+    end = datetime(2025, 5, 20)
     food_entries = get_food_entries(start, end)
     insert_food_entries(food_entries)
