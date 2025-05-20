@@ -1,18 +1,7 @@
 from datetime import datetime, timedelta
 import time
-import os
-from dotenv import load_dotenv
-from fatsecret_client import make_oauth_request
-from pg_client import insert_values
+from clients import insert_values, make_oauth_request
 
-load_dotenv()
-
-# PostgreSQL credentials
-PG_HOST = os.getenv("PG_HOST")
-PG_PORT = os.getenv("PG_PORT", 5432)
-PG_USER = os.getenv("PG_USER")
-PG_PASSWORD = os.getenv("PG_PASSWORD")
-PG_DB = os.getenv("PG_DB")
 
 def get_food_entries(start_date, end_date):
     all_entries = []
