@@ -94,14 +94,36 @@ def insert_food_entries(entries):
             print(f"⚠️ Skipping entry due to error: {e}")
 
     insert_sql = """
-            INSERT INTO personal_data.food_entries (
-                user_id, date, meal_type, food_name, calories,
-                carbohydrate, protein, fat, saturated_fat, sugar, fiber,
-                calcium, iron, cholesterol, sodium, vitamin_a, vitamin_c,
-                monounsaturated_fat, polyunsaturated_fat,
-                quantity, unit, fatsecret_food_id, fatsecret_food_entry_id
-            ) VALUES %s
-            ON CONFLICT (fatsecret_food_entry_id) DO NOTHING
+        INSERT INTO personal_data.food_entries (
+            user_id, date, meal_type, food_name, calories,
+            carbohydrate, protein, fat, saturated_fat, sugar, fiber,
+            calcium, iron, cholesterol, sodium, vitamin_a, vitamin_c,
+            monounsaturated_fat, polyunsaturated_fat,
+            quantity, unit, fatsecret_food_id, fatsecret_food_entry_id
+        ) VALUES %s
+        ON CONFLICT (fatsecret_food_entry_id) DO UPDATE SET
+            user_id = EXCLUDED.user_id,
+            date = EXCLUDED.date,
+            meal_type = EXCLUDED.meal_type,
+            food_name = EXCLUDED.food_name,
+            calories = EXCLUDED.calories,
+            carbohydrate = EXCLUDED.carbohydrate,
+            protein = EXCLUDED.protein,
+            fat = EXCLUDED.fat,
+            saturated_fat = EXCLUDED.saturated_fat,
+            sugar = EXCLUDED.sugar,
+            fiber = EXCLUDED.fiber,
+            calcium = EXCLUDED.calcium,
+            iron = EXCLUDED.iron,
+            cholesterol = EXCLUDED.cholesterol,
+            sodium = EXCLUDED.sodium,
+            vitamin_a = EXCLUDED.vitamin_a,
+            vitamin_c = EXCLUDED.vitamin_c,
+            monounsaturated_fat = EXCLUDED.monounsaturated_fat,
+            polyunsaturated_fat = EXCLUDED.polyunsaturated_fat,
+            quantity = EXCLUDED.quantity,
+            unit = EXCLUDED.unit,
+            fatsecret_food_id = EXCLUDED.fatsecret_food_id;
         """
 
     insert_values(insert_sql, values)

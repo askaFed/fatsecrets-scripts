@@ -6,6 +6,7 @@ from clients import insert_values, make_oauth_request
 def get_exercise_entries(start_date, end_date):
     all_entries = []
     current_date = start_date
+    # current_date -= timedelta(days=1)
 
     while current_date <= end_date:
         retries = 0
@@ -13,8 +14,8 @@ def get_exercise_entries(start_date, end_date):
         success = False
 
         while retries < max_retries and not success:
-            date_int = int(current_date.timestamp()) // 86400
-            print(f"🏋️ Fetching exercise entries for {current_date.strftime('%Y-%m-%d')} (Attempt {retries + 1})...")
+            date_int = (int(current_date.timestamp()) // 86400) + 1
+            print(f"🏋️ Fetching exercise entries for {current_date.strftime('%Y-%m-%d')}  date_int = {date_int} (Attempt {retries + 1})...")
 
             params = {
                 "method": "exercise_entries.get",
@@ -82,10 +83,13 @@ def insert_exercise_entries(entries):
             print(f"⚠️ Skipping entry due to error: {e}")
 
     insert_sql = """
-        INSERT INTO personal_data.exercise_entries (
-            user_id, date, exercise_name, duration_minutes, calories, fatsecret_exercise_id
-        ) VALUES %s
-        ON CONFLICT (user_id, date, fatsecret_exercise_id) DO NOTHING
+            INSERT INTO personal_data.exercise_entries (
+                user_id, date, exercise_name, duration_minutes, calories, fatsecret_exercise_id
+            ) VALUES %s
+            ON CONFLICT (user_id, date, fatsecret_exercise_id) DO UPDATE SET
+                exercise_name = EXCLUDED.exercise_name,
+                duration_minutes = EXCLUDED.duration_minutes,
+                calories = EXCLUDED.calories;
     """
 
     insert_values(insert_sql, values)
@@ -93,7 +97,7 @@ def insert_exercise_entries(entries):
 
 if __name__ == "__main__":
     print("📥 Fetching exercise entries...")
-    start = datetime(2025, 1, 1)
-    end = datetime(2025, 5, 22)
+    start = datetime(2025, 5, 20)
+    end = datetime(2025, 5, 21)
     exercise_entries = get_exercise_entries(start, end)
     insert_exercise_entries(exercise_entries)
