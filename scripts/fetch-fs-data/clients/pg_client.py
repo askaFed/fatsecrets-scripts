@@ -27,7 +27,7 @@ def get_connection():
 def insert_values(sql, values):
     try:
         print(f" SQL {sql} ")
-        print(f" Values: {values} ")
+        # print(f" Values: {values} ")
 
         conn = get_connection()
         cursor = conn.cursor()

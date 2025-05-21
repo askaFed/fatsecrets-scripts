@@ -109,7 +109,7 @@ def insert_food_entries(entries):
 
 if __name__ == "__main__":
     print("📥 Fetching food entries...")
-    start = datetime(2025, 5, 20)
-    end = datetime(2025, 5, 21)
+    start = datetime(2025, 5, 21)
+    end = datetime(2025, 5, 22)
     food_entries = get_food_entries(start, end)
     insert_food_entries(food_entries)

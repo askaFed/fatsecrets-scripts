@@ -53,11 +53,13 @@ CREATE TABLE IF NOT EXISTS personal_data.exercise_entries (
     user_id INT REFERENCES personal_data.users(id),
     date DATE NOT NULL,
     exercise_name TEXT,
-    calories_burned NUMERIC(6, 2),
-    duration_minutes NUMERIC(5, 2),
+    calories NUMERIC(8, 2),
+    duration_minutes NUMERIC(8, 2),
     fatsecret_exercise_id TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (user_id, date, fatsecret_exercise_id)
 );
+
 
 -- Optional: Daily summary view
 CREATE TABLE IF NOT EXISTS personal_data.daily_summary (
