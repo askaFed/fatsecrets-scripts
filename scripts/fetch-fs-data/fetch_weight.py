@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import time
 from clients import insert_values, make_oauth_request
+import argparse
 
 
 def get_weight_entries(start_date, end_date):
@@ -80,9 +81,27 @@ def insert_weight_entries(entries):
     insert_values(insert_sql, values)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Fetch and insert food entries.")
+    parser.add_argument('--start', type=str, help='Start date in YYYY-MM-DD format')
+    parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
+    return parser.parse_args()
+
 if __name__ == "__main__":
     print("📥 Fetching weight entries...")
-    start = datetime(2025, 4, 1)
-    end = datetime(2025, 5, 21)
+
+
+    args = parse_args()
+
+    # Default to yesterday and today if not provided
+    today = datetime.now()
+    default_start = today - timedelta(days=1)
+    default_end = today
+
+    # Parse dates or use defaults
+    start = datetime.strptime(args.start, '%Y-%m-%d') if args.start else default_start
+    end = datetime.strptime(args.end, '%Y-%m-%d') if args.end else default_end
+
     weight_entries = get_weight_entries(start, end)
     insert_weight_entries(weight_entries)
+

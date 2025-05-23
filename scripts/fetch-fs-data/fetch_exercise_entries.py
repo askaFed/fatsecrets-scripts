@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import time
 from clients import insert_values, make_oauth_request
+import argparse
 
 
 def get_exercise_entries(start_date, end_date):
@@ -14,7 +15,7 @@ def get_exercise_entries(start_date, end_date):
         success = False
 
         while retries < max_retries and not success:
-            date_int = (int(current_date.timestamp()) // 86400) + 1
+            date_int = (int(current_date.timestamp()) // 86400)
             print(f"🏋️ Fetching exercise entries for {current_date.strftime('%Y-%m-%d')}  date_int = {date_int} (Attempt {retries + 1})...")
 
             params = {
@@ -95,9 +96,25 @@ def insert_exercise_entries(entries):
     insert_values(insert_sql, values)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Fetch and insert food entries.")
+    parser.add_argument('--start', type=str, help='Start date in YYYY-MM-DD format')
+    parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
+    return parser.parse_args()
+
 if __name__ == "__main__":
     print("📥 Fetching exercise entries...")
-    start = datetime(2025, 5, 20)
-    end = datetime(2025, 5, 21)
+
+    args = parse_args()
+
+    # Default to yesterday and today if not provided
+    today = datetime.now()
+    default_start = today - timedelta(days=1)
+    default_end = today
+
+    # Parse dates or use defaults
+    start = datetime.strptime(args.start, '%Y-%m-%d') if args.start else default_start
+    end = datetime.strptime(args.end, '%Y-%m-%d') if args.end else default_end
+
     exercise_entries = get_exercise_entries(start, end)
     insert_exercise_entries(exercise_entries)

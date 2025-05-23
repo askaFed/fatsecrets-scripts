@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import time
 from clients import insert_values, make_oauth_request
+import argparse
 
 
 def get_food_entries(start_date, end_date):
@@ -129,9 +130,25 @@ def insert_food_entries(entries):
     insert_values(insert_sql, values)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Fetch and insert food entries.")
+    parser.add_argument('--start', type=str, help='Start date in YYYY-MM-DD format')
+    parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
+    return parser.parse_args()
+
 if __name__ == "__main__":
     print("📥 Fetching food entries...")
-    start = datetime(2025, 5, 21)
-    end = datetime(2025, 5, 22)
+
+    args = parse_args()
+
+    # Default to yesterday and today if not provided
+    today = datetime.now()
+    default_start = today - timedelta(days=1)
+    default_end = today
+
+    # Parse dates or use defaults
+    start = datetime.strptime(args.start, '%Y-%m-%d') if args.start else default_start
+    end = datetime.strptime(args.end, '%Y-%m-%d') if args.end else default_end
+
     food_entries = get_food_entries(start, end)
     insert_food_entries(food_entries)
