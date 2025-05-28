@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateutil.relativedelta import relativedelta
 import time
 from clients import insert_values, make_oauth_request
@@ -15,7 +15,7 @@ def get_weight_entries(start_date, end_date):
         success = False
 
         while retries < max_retries and not success:
-            date_int = (current_date - datetime(1970, 1, 1)).days
+            date_int = (current_date - datetime(1970, 1, 1).replace(tzinfo=timezone.utc)).days
             print(f"📅 Fetching entries for {current_date.strftime('%Y-%m-%d')} (Attempt {retries + 1})...")
 
 
@@ -94,13 +94,13 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Default to yesterday and today if not provided
-    today = datetime.now()
+    today = datetime.now().replace(tzinfo=timezone.utc)
     default_start = today - timedelta(days=1)
     default_end = today
 
     # Parse dates or use defaults
-    start = datetime.strptime(args.start, '%Y-%m-%d') if args.start else default_start
-    end = datetime.strptime(args.end, '%Y-%m-%d') if args.end else default_end
+    start = datetime.strptime(args.start, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.start else default_start
+    end = datetime.strptime(args.end, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.end else default_end
 
     weight_entries = get_weight_entries(start, end)
     insert_weight_entries(weight_entries)

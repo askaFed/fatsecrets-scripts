@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import time
 from clients import insert_values, make_oauth_request
 import argparse
@@ -108,13 +108,13 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Default to yesterday and today if not provided
-    today = datetime.now()
+    today = datetime.now().replace(tzinfo=timezone.utc)
     default_start = today - timedelta(days=1)
     default_end = today
 
     # Parse dates or use defaults
-    start = datetime.strptime(args.start, '%Y-%m-%d') if args.start else default_start
-    end = datetime.strptime(args.end, '%Y-%m-%d') if args.end else default_end
+    start = datetime.strptime(args.start, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.start else default_start
+    end = datetime.strptime(args.end, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.end else default_end
 
     exercise_entries = get_exercise_entries(start, end)
     insert_exercise_entries(exercise_entries)
