@@ -4,7 +4,7 @@
 CREATE DATABASE fatsecrets_db;
 
 -- Step 2: Create the user with a password
-CREATE USER fatsecrets_intergration WITH PASSWORD 'fatsecrets_intergration_pwd';
+CREATE USER fatsecrets_intergration WITH PASSWORD '';
 
 -- Step 3: Grant connect privileges on the database
 GRANT ALL PRIVILEGES ON DATABASE fatsecrets_db TO fatsecrets_intergration;
