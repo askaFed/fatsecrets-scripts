@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta, timezone
 import time
-from clients import insert_values, make_oauth_request
+from clients import insert_values, get_all_users, make_oauth_request
 import argparse
 
 
-def get_exercise_entries(start_date, end_date):
+def get_exercise_entries(user_id, access_token, access_token_secret, start_date, end_date):
     all_entries = []
     current_date = start_date
-    # current_date -= timedelta(days=1)
 
     while current_date <= end_date:
         retries = 0
@@ -16,7 +15,7 @@ def get_exercise_entries(start_date, end_date):
 
         while retries < max_retries and not success:
             date_int = (int(current_date.timestamp()) // 86400)
-            print(f"🏋️ Fetching exercise entries for {current_date.strftime('%Y-%m-%d')}  date_int = {date_int} (Attempt {retries + 1})...")
+            print(f"🏋️ Fetching exercise entries for user {user_id} on {current_date.strftime('%Y-%m-%d')} (Attempt {retries + 1})...")
 
             params = {
                 "method": "exercise_entries.get",
@@ -25,7 +24,7 @@ def get_exercise_entries(start_date, end_date):
             }
 
             try:
-                data = make_oauth_request(params)
+                data = make_oauth_request(access_token, access_token_secret, params)
 
                 if "error" in data:
                     if data["error"].get("code") == 12:
@@ -49,6 +48,7 @@ def get_exercise_entries(start_date, end_date):
 
                 for entry in entries:
                     entry["entry_date"] = current_date.date().isoformat()
+                    entry["user_id"] = user_id
 
                 all_entries.extend(entries)
                 success = True
@@ -58,7 +58,7 @@ def get_exercise_entries(start_date, end_date):
                 time.sleep(5)
 
         current_date += timedelta(days=1)
-        time.sleep(1)  # Respectful delay
+        time.sleep(1)  # Respectful delay between calls
 
     return all_entries
 
@@ -68,12 +68,11 @@ def insert_exercise_entries(entries):
         print("⚠️ No exercise entries to insert.")
         return
 
-    user_id = 1
     values = []
     for entry in entries:
         try:
             values.append((
-                user_id,
+                entry.get("user_id"),
                 entry.get("entry_date"),
                 entry.get("exercise_name"),
                 entry.get("minutes"),
@@ -97,13 +96,14 @@ def insert_exercise_entries(entries):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Fetch and insert food entries.")
+    parser = argparse.ArgumentParser(description="Fetch and insert exercise entries.")
     parser.add_argument('--start', type=str, help='Start date in YYYY-MM-DD format')
     parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
     return parser.parse_args()
 
+
 if __name__ == "__main__":
-    print("📥 Fetching exercise entries...")
+    print("📥 Fetching exercise entries for all users...")
 
     args = parse_args()
 
@@ -116,5 +116,21 @@ if __name__ == "__main__":
     start = datetime.strptime(args.start, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.start else default_start
     end = datetime.strptime(args.end, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.end else default_end
 
-    exercise_entries = get_exercise_entries(start, end)
-    insert_exercise_entries(exercise_entries)
+    # Get all users with their access tokens
+    users = get_all_users()
+    
+    if not users:
+        print("❌ No users found in the database")
+        exit(1)
+
+    for user in users:
+        print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
+        user_entries = get_exercise_entries(
+            user['id'],
+            user['access_token'],
+            user['access_token_secret'],
+            start,
+            end
+        )
+        insert_exercise_entries(user_entries)
+        time.sleep(5)  # Delay between users

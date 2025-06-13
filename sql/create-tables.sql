@@ -5,6 +5,17 @@ CREATE TABLE IF NOT EXISTS personal_data.users (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Access tokens table
+CREATE TABLE IF NOT EXISTS personal_data.access_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES personal_data.users(id),
+    access_token TEXT NOT NULL,
+    access_token_secret TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id)
+);
+
 -- Weight history table
 CREATE TABLE IF NOT EXISTS personal_data.weights (
     id SERIAL PRIMARY KEY,

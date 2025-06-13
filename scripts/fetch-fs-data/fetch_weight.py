@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from dateutil.relativedelta import relativedelta
 import time
-from clients import insert_values, make_oauth_request
+from clients import insert_values, get_all_users, make_oauth_request
 import argparse
 
 
-def get_weight_entries(start_date, end_date):
+def get_weight_entries(user_id, access_token, access_token_secret, start_date, end_date):
     all_entries = []
     current_date = start_date
 
@@ -16,8 +16,7 @@ def get_weight_entries(start_date, end_date):
 
         while retries < max_retries and not success:
             date_int = (current_date - datetime(1970, 1, 1).replace(tzinfo=timezone.utc)).days
-            print(f"📅 Fetching entries for {current_date.strftime('%Y-%m-%d')} (Attempt {retries + 1})...")
-
+            print(f"📅 Fetching entries for user {user_id} on {current_date.strftime('%Y-%m-%d')} (Attempt {retries + 1})...")
 
             params = {
                 "method": "weights.get_month.v2",
@@ -26,7 +25,7 @@ def get_weight_entries(start_date, end_date):
             }
 
             try:
-                data = make_oauth_request(params)
+                data = make_oauth_request(access_token, access_token_secret, params)
                 print(f"Data {data}")
 
                 if "error" in data:
@@ -39,14 +38,13 @@ def get_weight_entries(start_date, end_date):
                         print(f"⚠️ API error on {current_date.strftime('%Y-%m-%d')}: {data['error']}")
                         break
 
-
                 days = data.get("month", {}).get("day", [])
                 entries = []
                 for entry in days:
                     date = datetime.utcfromtimestamp(int(entry["date_int"]) * 86400).strftime("%Y-%m-%d")
                     weight = entry.get("weight_kg")
                     if weight is not None:
-                        entries.append((date, float(weight)))
+                        entries.append((user_id, date, float(weight)))
 
                 if entries:
                     all_entries.extend(entries if isinstance(entries, list) else [entries])
@@ -62,14 +60,11 @@ def get_weight_entries(start_date, end_date):
 
     return all_entries
 
+
 def insert_weight_entries(entries):
     if not entries:
         print("⚠️ No weight entries to insert.")
         return
-
-    user_id = 1
-    values = [(user_id, date, weight) for date, weight in entries]
-
 
     insert_sql = """
             INSERT INTO personal_data.weights (user_id, date, weight_kg)
@@ -78,7 +73,7 @@ def insert_weight_entries(entries):
             SET weight_kg = EXCLUDED.weight_kg;
         """
 
-    insert_values(insert_sql, values)
+    insert_values(insert_sql, entries)
 
 
 def parse_args():
@@ -87,9 +82,9 @@ def parse_args():
     parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
     return parser.parse_args()
 
-if __name__ == "__main__":
-    print("📥 Fetching weight entries...")
 
+if __name__ == "__main__":
+    print("📥 Fetching weight entries for all users...")
 
     args = parse_args()
 
@@ -102,6 +97,25 @@ if __name__ == "__main__":
     start = datetime.strptime(args.start, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.start else default_start
     end = datetime.strptime(args.end, '%Y-%m-%d').replace(tzinfo=timezone.utc) if args.end else default_end
 
-    weight_entries = get_weight_entries(start, end)
-    insert_weight_entries(weight_entries)
+    # Get all users with their access tokens
+    users = get_all_users()
+    
+    if not users:
+        print("❌ No users found in the database")
+        exit(1)
+
+    all_entries = []
+    for user in users:
+        print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
+        user_entries = get_weight_entries(
+            user['id'],
+            user['access_token'],
+            user['access_token_secret'],
+            start,
+            end
+        )
+        all_entries.extend(user_entries)
+        time.sleep(5)  # Delay between users
+
+    insert_weight_entries(all_entries)
 
