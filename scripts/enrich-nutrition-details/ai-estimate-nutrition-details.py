@@ -1,10 +1,8 @@
-from clients import exec_ai_request
 import json
-
-
-# Load food log from file
-with open("/Users/aska/IdeaProjects/fatsectets-scripts/scripts/enrich-nutrition-details/food_entries_202507141602.csv", "r", encoding="utf-8") as f:
-    food_log = f.read()
+import time
+from datetime import datetime, timedelta, timezone
+import argparse
+from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_values
 
 nutrients = """
 - Carbohydrate (g)
@@ -67,10 +65,51 @@ Output ONLY the result as a JSON object, exactly in the following format.
 
 DO NOT include any additional text, explanations, or code block delimiters (e.g., ```json).
 
-Food log:
-{food_log}
 """
-nutrition_estimates = exec_ai_request(prompt)
 
-for nutrition_estimate in nutrition_estimates:
-    print(nutrition_estimate)
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Fetch and insert food entries.")
+    parser.add_argument('--start', type=str, help='Start date in YYYY-MM-DD format')
+    parser.add_argument('--end', type=str, help='End date in YYYY-MM-DD format')
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    print("📥 Fetching food entries for all users...")
+
+    args = parse_args()
+
+    # Default to yesterday and today if not provided
+    today = datetime.now().replace(tzinfo=timezone.utc)
+    default_start = today - timedelta(days=1)
+    default_end = today
+
+    # Parse dates or use defaults
+    start = datetime.strptime(args.start, '%Y-%m-%d').date() if args.start else default_start.date()
+    end = datetime.strptime(args.end, '%Y-%m-%d').date() if args.end else default_end.date()
+
+
+    # Get all users with their access tokens
+    users = get_all_users()
+
+    if not users:
+        print("❌ No users found in the database")
+        exit(1)
+
+    for user in users:
+        print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
+
+        food_log = get_food_log_entries_by_date(start, end, user['id'])
+
+        full_prompt = prompt + f"""
+        Food log:
+        {food_log}
+        """
+
+        nutrition_estimates = exec_ai_request(full_prompt)
+
+        for nutrition_estimate in nutrition_estimates:
+            print(nutrition_estimate)
+
+        time.sleep(5)  # Delay between users
