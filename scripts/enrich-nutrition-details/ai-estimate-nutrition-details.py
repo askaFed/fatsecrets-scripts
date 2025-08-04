@@ -101,15 +101,31 @@ if __name__ == "__main__":
         print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
 
         user_food_log = get_food_log_entries_by_date(start, end, user['id'])
+        user_food_log_for_promt = {entry['food_entry_id']: {'calories': entry['calories'], 'quantity': entry['quantity']} for entry in user_food_log}
 
         full_prompt = prompt + f"""
         Food log:
-        {user_food_log}
+        {user_food_log_for_promt}
         """
 
         nutrition_estimates = exec_ai_request(full_prompt)
 
+        # Create a mapping of food_entry_id to meal_type and date for enrichment
+        food_entry_mapping = {entry['food_entry_id']: {'user_id': entry['user_id'], 'meal_type': entry['meal_type'], 'date': entry['date']} for entry in
+                              user_food_log}
+
         for nutrition_estimate in nutrition_estimates:
-            insert_nutrient_data(nutrition_estimates)
+            # Enrich the nutrition estimate with meal_type and date from the original food entry
+            food_entry_id = nutrition_estimate.get('food_entry_id')
+            if food_entry_id and food_entry_id in food_entry_mapping:
+                nutrition_estimate['meal_type'] = food_entry_mapping[food_entry_id]['meal_type']
+                # Convert date to string format if it's a date object
+                date_value = food_entry_mapping[food_entry_id]['date']
+                if hasattr(date_value, 'strftime'):
+                    nutrition_estimate['date'] = date_value.strftime('%Y-%m-%d')
+                else:
+                    nutrition_estimate['date'] = str(date_value)
+            
+            insert_nutrient_data([nutrition_estimate])
 
         time.sleep(5)  # Delay between users

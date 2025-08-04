@@ -78,6 +78,8 @@ def get_food_log_entries_by_date(start, end, user):
     food_log_cols = [
         "id AS food_entry_id",
         "meal_type",
+        "date",
+        "user_id",
         "calories",
         "quantity"
     ]
