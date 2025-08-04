@@ -44,6 +44,57 @@ def get_all_users():
         conn.close()
 
 
+def get_user_details(user_id):
+    """Get user demographic details for calculating daily goals"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("""
+            SELECT ud.gender, ud.age, ud.weight_kg, ud.height_cm, ud.activity_level, ud.pregnancy_status
+            FROM personal_data.user_details ud
+            WHERE ud.user_id = %s
+        """, (user_id,))
+        user_details = cursor.fetchone()
+        return user_details
+    except Exception as e:
+        print(f"❌ DB error getting user details: {e}")
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def insert_daily_micronutrient_goals(goals_data_list):
+    """Insert daily micronutrient goals for users"""
+    if not goals_data_list:
+        print("⚠️ No goals data to insert.")
+        return
+
+    keys = list(goals_data_list[0].keys())
+    columns = ', '.join(keys)
+    placeholders = ', '.join([f'%({key})s' for key in keys])
+
+    sql = f"""
+        INSERT INTO personal_data.daily_micronutrient_goals ({columns})
+        VALUES %s
+        ON CONFLICT (user_id, date) DO UPDATE SET
+        {', '.join([f"{k} = EXCLUDED.{k}" for k in keys if k not in ['user_id', 'date']])}
+    """
+
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        execute_values(cursor, sql, goals_data_list, template=f"({placeholders})")
+        conn.commit()
+        print(f"✅ Inserted/updated {len(goals_data_list)} daily goals records.")
+    except Exception as e:
+        print(f"❌ DB error inserting daily goals: {e}")
+        raise ValueError({str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+
+
 def insert_nutrient_data(nutrient_data_list):
     if not nutrient_data_list:
         print("⚠️ No nutrient data to insert.")

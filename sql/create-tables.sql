@@ -5,6 +5,59 @@ CREATE TABLE IF NOT EXISTS personal_data.users (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- User details table for demographic information
+CREATE TABLE IF NOT EXISTS personal_data.user_details (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES personal_data.users(id) UNIQUE,
+    gender TEXT CHECK (gender IN ('male', 'female', 'other')),
+    age INTEGER CHECK (age > 0 AND age < 150),
+    weight_kg NUMERIC(5, 2),
+    height_cm NUMERIC(5, 2),
+    activity_level TEXT CHECK (activity_level IN ('sedentary', 'lightly_active', 'moderately_active', 'very_active', 'extremely_active')),
+    pregnancy_status TEXT CHECK (pregnancy_status IN ('not_pregnant', 'pregnant', 'breastfeeding')),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Daily micronutrient goals table
+CREATE TABLE IF NOT EXISTS personal_data.daily_micronutrient_goals (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES personal_data.users(id),
+    date DATE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    -- Macronutrients
+    calories_goal NUMERIC(6, 2),
+    protein_goal_g NUMERIC(6, 2),
+    carbohydrate_goal_g NUMERIC(6, 2),
+    fat_goal_g NUMERIC(6, 2),
+    fiber_goal_g NUMERIC(6, 2),
+    -- Micronutrients
+    vitamin_a_goal_mcg NUMERIC(8, 2),
+    vitamin_c_goal_mg NUMERIC(8, 2),
+    vitamin_d_goal_mcg NUMERIC(8, 2),
+    vitamin_b12_goal_mcg NUMERIC(8, 2),
+    calcium_goal_mg NUMERIC(8, 2),
+    iron_goal_mg NUMERIC(8, 2),
+    magnesium_goal_mg NUMERIC(8, 2),
+    potassium_goal_mg NUMERIC(8, 2),
+    zinc_goal_mg NUMERIC(8, 2),
+    selenium_goal_mcg NUMERIC(8, 2),
+    vitamin_k_goal_mcg NUMERIC(8, 2),
+    folate_goal_mcg NUMERIC(8, 2),
+    inositol_goal_mg NUMERIC(8, 2),
+    thiamin_goal_mg NUMERIC(8, 2),
+    riboflavin_goal_mg NUMERIC(8, 2),
+    niacin_goal_mg NUMERIC(8, 2),
+    pantothenic_acid_goal_mg NUMERIC(8, 2),
+    vitamin_b6_goal_mg NUMERIC(8, 2),
+    biotin_goal_mcg NUMERIC(8, 2),
+    iodine_goal_mcg NUMERIC(8, 2),
+    omega_3_fatty_acids_goal_mg NUMERIC(8, 2),
+    choline_goal_mg NUMERIC(8, 2),
+    chromium_goal_mcg NUMERIC(8, 2),
+    UNIQUE(user_id, date)
+);
+
 -- Access tokens table
 CREATE TABLE IF NOT EXISTS personal_data.access_tokens (
     id SERIAL PRIMARY KEY,
