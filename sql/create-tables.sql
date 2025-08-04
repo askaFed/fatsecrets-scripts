@@ -82,3 +82,40 @@ CREATE TABLE IF NOT EXISTS personal_data.daily_summary (
     weight_kg NUMERIC(5, 2),
     UNIQUE(user_id, date)
 );
+
+CREATE TABLE  IF NOT EXISTS personal_data.estimated_food_nutrients (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES personal_data.users(id) DEFAULT 1,
+    food_entry_id INT UNIQUE REFERENCES personal_data.food_entries,
+    date DATE NOT NULL,
+    meal_type TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    carbohydrate_g FLOAT,
+    protein_g FLOAT,
+    fat_g FLOAT,
+    fiber_g FLOAT,
+    vitamin_a_mcg FLOAT,
+    vitamin_c_mg FLOAT,
+    vitamin_d_mcg FLOAT,
+    vitamin_b12_mcg FLOAT,
+    calcium_mg FLOAT,
+    iron_mg FLOAT,
+    magnesium_mg FLOAT,
+    potassium_mg FLOAT,
+    zinc_mg FLOAT,
+    selenium_mcg FLOAT,
+    vitamin_k_mcg FLOAT,
+    folate_mcg FLOAT,
+    inositol_mg FLOAT,
+    thiamin_mg FLOAT,
+    riboflavin_mg FLOAT,
+    niacin_mg FLOAT,
+    pantothenic_acid_mg FLOAT,
+    vitamin_b6_mg FLOAT,
+    biotin_mcg FLOAT,
+    iodine_mcg FLOAT,
+    omega_3_fatty_acids_mg FLOAT,
+    choline_mg FLOAT,
+    chromium_mcg FLOAT
+);
+

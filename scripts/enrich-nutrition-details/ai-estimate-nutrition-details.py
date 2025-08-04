@@ -2,7 +2,7 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 import argparse
-from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_values
+from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_nutrient_data
 
 nutrients = """
 - Carbohydrate (g)
@@ -37,12 +37,12 @@ nutrients = """
 data_format = """
 [
     {
-        "fatsecret_food_id": 123,
+        "food_entry_id": 123,
         "vitamin_a_mcg": 12.0,
         "vitamin_c_mg": 4.0
     },
     {
-        "fatsecret_food_id": 124,
+        "food_entry_id": 124,
         "vitamin_a_mcg": 15.0,
         "vitamin_c_mg": 2.0
     }
@@ -100,16 +100,16 @@ if __name__ == "__main__":
     for user in users:
         print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
 
-        food_log = get_food_log_entries_by_date(start, end, user['id'])
+        user_food_log = get_food_log_entries_by_date(start, end, user['id'])
 
         full_prompt = prompt + f"""
         Food log:
-        {food_log}
+        {user_food_log}
         """
 
         nutrition_estimates = exec_ai_request(full_prompt)
 
         for nutrition_estimate in nutrition_estimates:
-            print(nutrition_estimate)
+            insert_nutrient_data(nutrition_estimates)
 
         time.sleep(5)  # Delay between users

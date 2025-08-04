@@ -4,6 +4,7 @@ import os
 import psycopg2
 from psycopg2.extras import execute_values, RealDictCursor
 from dotenv import load_dotenv
+from decimal import Decimal
 
 load_dotenv()
 
@@ -43,18 +44,30 @@ def get_all_users():
         conn.close()
 
 
-def insert_values(sql, values):
-    try:
-        print(f" SQL {sql} ")
-        print(f" Values: {values} ")
+def insert_nutrient_data(nutrient_data_list):
+    if not nutrient_data_list:
+        print("⚠️ No nutrient data to insert.")
+        return
 
+    keys = list(nutrient_data_list[0].keys())
+    columns = ', '.join(keys)
+    placeholders = ', '.join([f'%({key})s' for key in keys])
+
+    sql = f"""
+        INSERT INTO personal_data.estimated_food_nutrients ({columns})
+        VALUES %s
+        ON CONFLICT (food_entry_id) DO UPDATE SET
+        {', '.join([f"{k} = EXCLUDED.{k}" for k in keys if k != 'food_entry_id'])}
+    """
+
+    try:
         conn = get_connection()
         cursor = conn.cursor()
-        execute_values(cursor, sql, values)
+        execute_values(cursor, sql, nutrient_data_list, template=f"({placeholders})")
         conn.commit()
-        print(f"✅ Inserted {len(values)} rows.")
+        print(f"✅ Inserted/updated {len(nutrient_data_list)} nutrient records.")
     except Exception as e:
-        print(f"❌ DB error: {e}")
+        print(f"❌ DB error inserting nutrient data: {e}")
         raise ValueError({str(e)})
     finally:
         cursor.close()
@@ -62,27 +75,37 @@ def insert_values(sql, values):
 
 
 def get_food_log_entries_by_date(start, end, user):
-    food_log_cols = "fatsecret_food_entry_id, fatsecret_food_id, food_name, calories, quantity"
+    food_log_cols = [
+        "id AS food_entry_id",
+        "meal_type",
+        "calories",
+        "quantity"
+    ]
     try:
         conn = get_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         query = f"""
-            SELECT {food_log_cols}
+            SELECT {', '.join(food_log_cols)}
             FROM personal_data.food_entries
             WHERE user_id = {user}
             AND date BETWEEN date('{start}') AND date('{end}')
         """
 
-        # print(f" SQL {query} ")
-        # print(">>>>")
+        print(f" SQL {query} ")
+        print(">>>>")
 
         cursor.execute(query)
         results = cursor.fetchall()
 
-        # Convert RealDictRow objects to plain dicts
-        clean_results = [dict(row) for row in results]
+        clean_results = [
+            {
+                key: float(value) if isinstance(value, Decimal) else value
+                for key, value in dict(row).items()
+            }
+            for row in results
+        ]
 
-        # print(f"Results {clean_results}")
+        print(f"Results {clean_results}")
         return clean_results
 
     except Exception as e:
