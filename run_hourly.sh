@@ -8,6 +8,7 @@ SCRIPTS=(
   "./scripts/fetch-fs-data/fetch_food_entries.py"
   "./scripts/fetch-fs-data/fetch_exercise_entries.py"
   "./scripts/fetch-fs-data/fetch_weight.py"
+  "./scripts/enrich-nutrition-details/ai-estimate-nutrition-details.py"
 )
 
 source "$SCRIPT_DIR/venv/bin/activate"
