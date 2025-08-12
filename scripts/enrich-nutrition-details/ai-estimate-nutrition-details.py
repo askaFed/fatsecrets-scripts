@@ -1,7 +1,8 @@
+import argparse
 import json
 import time
 from datetime import datetime, timedelta, timezone
-import argparse
+
 from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_nutrient_data
 
 nutrients = """
@@ -51,7 +52,6 @@ data_format = """
 
 data_format_string = json.dumps(data_format)
 
-
 prompt = f"""
 Analyze the following list of foods I consumed today and estimate the intake of the following nutrients:
 {nutrients}
@@ -89,7 +89,6 @@ if __name__ == "__main__":
     start = datetime.strptime(args.start, '%Y-%m-%d').date() if args.start else default_start.date()
     end = datetime.strptime(args.end, '%Y-%m-%d').date() if args.end else default_end.date()
 
-
     # Get all users with their access tokens
     users = get_all_users()
 
@@ -101,11 +100,15 @@ if __name__ == "__main__":
         print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
 
         user_food_log = get_food_log_entries_by_date(start, end, user['id'])
-        user_food_log_for_promt = {entry['food_entry_id']: {'calories': entry['calories'], 'quantity': entry['quantity']} for entry in user_food_log}
+        user_food_log_for_prompt = {
+            entry['food_entry_id']:
+                {'food_name': entry['food_name'], 'calories': entry['calories'], 'quantity': entry['quantity']} for
+            entry in user_food_log
+        }
 
         full_prompt = prompt + f"""
         Food log:
-        {user_food_log_for_promt}
+        {user_food_log_for_prompt}
         """
 
         nutrition_estimates = exec_ai_request(full_prompt)
@@ -125,7 +128,7 @@ if __name__ == "__main__":
                     nutrition_estimate['date'] = date_value.strftime('%Y-%m-%d')
                 else:
                     nutrition_estimate['date'] = str(date_value)
-            
+
             insert_nutrient_data([nutrition_estimate])
 
         time.sleep(5)  # Delay between users

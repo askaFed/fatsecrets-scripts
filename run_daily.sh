@@ -5,9 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATE=$(date +"%Y-%m-%d_%H-%M")
 
 SCRIPTS=(
-  "./scripts/fetch-fs-data/fetch_food_entries.py"
-  "./scripts/fetch-fs-data/fetch_exercise_entries.py"
-  "./scripts/fetch-fs-data/fetch_weight.py"
+  "./scripts/enrich-nutrition-details/ai-estimate-nutrition-details.py"
 )
 
 source "$SCRIPT_DIR/venv/bin/activate"
@@ -25,4 +23,4 @@ done
 
 deactivate
 
-find "$SCRIPT_DIR/output/logs/" -type f -name "*.log" -mtime +7 -delete
+find "$SCRIPT_DIR/output/logs/" -type f -name "*.log" -mtime +30 -delete
