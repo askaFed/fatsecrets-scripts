@@ -14,11 +14,11 @@ member_journal_base = "https://foods.fatsecret.com/Default.aspx"
 member_id = "81731212"
 out_dir = "./fatsecret_images"
 pages_to_scan = 10
-delay_between_requests = 10.0
-DAYS_LIMIT = 7
+delay_between_requests = 1.0
+DAYS_LIMIT = 30
 
 S3_REGION = "us-east-1"           # MinIO ignores this, but boto3 needs it
-S3_PREFIX = "uploads/"            # optional path prefix inside bucket
+S3_PREFIX = "uploads"            # optional path prefix inside bucket
 S3_BUCKET = "fatsecret"            # optional path prefix inside bucket
 
 # ---------------------------------------------------------------------
@@ -43,14 +43,14 @@ session.headers.update(HEADERS)
 if COOKIES:
     session.cookies.update(COOKIES)
 
-found = set()
-
 # ---------------------------------------------------------------------
-# STEP 1: PARSE JOURNAL PAGES
+# STEP 1: PARSE JOURNAL PAGES AND COLLECT (uuid, post_date)
 # ---------------------------------------------------------------------
+found = {}  # uuid -> post_date
 date_limit_reached = False
+
 for pg in range(0, pages_to_scan):
-    if (date_limit_reached):
+    if date_limit_reached:
         print(f"⚠️ Date limit reached. Won't move further: page {pg} is not loaded")
         break
 
@@ -85,51 +85,44 @@ for pg in range(0, pages_to_scan):
             break
 
         for m in uuid_regex.finditer(str(tr)):
-            found.add(m.group(1))
+            uuid = m.group(1)
+            found[uuid] = post_date.date().isoformat()
 
     print(f"Page {pg}: found {len(found)} unique uuids so far")
     time.sleep(delay_between_requests)
 
 # ---------------------------------------------------------------------
-# STEP 2: ENSURE S3 BUCKET
+# STEP 2: ENSURE S3 BUCKET EXISTS
 # ---------------------------------------------------------------------
 ensure_bucket_exists(S3_BUCKET)
 
 # ---------------------------------------------------------------------
-# STEP 3: DOWNLOAD + UPLOAD TO S3
+# STEP 3: STREAM IMAGES DIRECTLY TO S3 UNDER post_date PREFIX
 # ---------------------------------------------------------------------
 suff = "_original.jpg"
 uploaded = 0
 
-for uuid in sorted(found):
+for uuid, post_date_str in sorted(found.items()):
     img_url = f"https://m.ftscrt.com/food/{uuid}{suff}"
-    out_path = os.path.join(out_dir, f"{uuid}{suff}")
-    s3_key = f"{S3_PREFIX}{uuid}{suff}"
+    s3_key = f"{S3_PREFIX}/post_date={post_date_str}/{uuid}{suff}"
 
-    # Skip if already exists on S3
+    # Skip if already exists
     if object_exists(s3_key):
-        print(f"Already exists on S3: {s3_key}.")
+        print(f"🟡 Already exists on S3: {s3_key}")
         continue
 
-    # Download if needed
-    if not os.path.exists(out_path):
-        try:
-            r = session.get(img_url, stream=True, timeout=30)
+    try:
+        with session.get(img_url, stream=True, timeout=30) as r:
             if r.status_code == 200:
-                with open(out_path, "wb") as f:
-                    for chunk in r.iter_content(1024 * 8):
-                        f.write(chunk)
-                print(f"✅ Downloaded {uuid}")
+                if upload_to_s3(r.raw, s3_key, extra_args={"ContentType": "image/jpeg"}):
+                    print(f"✅ Uploaded {uuid} ({post_date_str}) → {s3_key}")
+                    uploaded += 1
             else:
                 print(f"⚠️ Skipped (status {r.status_code}): {img_url}")
-                continue
-        except Exception as e:
-            print(f"❌ Error downloading {img_url}: {e}")
-            continue
-        time.sleep(0.2)
+    except Exception as e:
+        print(f"❌ Error uploading {img_url}: {e}")
+        continue
 
-    # Upload to S3
-    if upload_to_s3(out_path, s3_key):
-        uploaded += 1
+    time.sleep(delay_between_requests)
 
 print(f"\n✅ Done. Uploaded {uploaded}/{len(found)} images (last {DAYS_LIMIT} days).")

@@ -45,16 +45,21 @@ def ensure_bucket_exists(bucket_name: str = S3_BUCKET):
     return s3
 
 
-def upload_to_s3(local_path: str, s3_key: str, bucket_name: str = S3_BUCKET):
-    """Upload a local file to S3."""
+def upload_to_s3(file_or_stream, s3_key, bucket_name=S3_BUCKET, extra_args=None):
+    """
+    Uploads a local file (path) or file-like object (e.g., HTTP stream) to S3.
+    """
     s3 = get_s3_client()
     try:
-        s3.upload_file(local_path, bucket_name, s3_key)
-        print(f"✅ Uploaded: s3://{bucket_name}/{s3_key}")
+        if isinstance(file_or_stream, str) and os.path.exists(file_or_stream):
+            s3.upload_file(file_or_stream, bucket_name, s3_key, ExtraArgs=extra_args or {})
+        else:
+            s3.upload_fileobj(file_or_stream, bucket_name, s3_key, ExtraArgs=extra_args or {})
         return True
     except Exception as e:
-        print(f"❌ Failed to upload {local_path} → s3://{bucket_name}/{s3_key}: {e}")
+        print(f"❌ Failed to upload {s3_key}: {e}")
         return False
+
 
 
 def object_exists(s3_key: str, bucket_name: str = S3_BUCKET) -> bool:
