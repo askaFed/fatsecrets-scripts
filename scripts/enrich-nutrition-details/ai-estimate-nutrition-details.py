@@ -3,7 +3,7 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 
-from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_nutrient_data
+from clients import exec_ai_request, get_all_users, get_food_log_entries_by_date, insert_food_entry_nutrients_normalized
 
 nutrients = """
 - Carbohydrate (g)
@@ -129,6 +129,7 @@ if __name__ == "__main__":
                 else:
                     nutrition_estimate['date'] = str(date_value)
 
-            insert_nutrient_data([nutrition_estimate])
+            # Write to normalized table
+            insert_food_entry_nutrients_normalized([nutrition_estimate])
 
         time.sleep(5)  # Delay between users

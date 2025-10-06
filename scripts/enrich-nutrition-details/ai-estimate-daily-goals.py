@@ -2,7 +2,7 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 import argparse
-from clients import exec_ai_request, get_all_users, get_user_details, insert_daily_micronutrient_goals
+from clients import exec_ai_request, get_all_users, get_user_details, insert_daily_nutrient_goals_normalized
 
 nutrients = """
 - Calories (kcal)
@@ -171,8 +171,8 @@ if __name__ == "__main__":
                 daily_goals['user_id'] = user['id']
                 daily_goals['date'] = start.strftime('%Y-%m-%d')
                 
-                # Insert the daily goals
-                #insert_daily_micronutrient_goals([daily_goals])
+                # Insert the daily goals into normalized table
+                insert_daily_nutrient_goals_normalized([daily_goals])
                 print(f"✅ Estimated daily goals for user {user['id']}")
             else:
                 print(f"❌ Invalid AI response format for user {user['id']}")
