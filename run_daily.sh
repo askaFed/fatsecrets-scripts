@@ -6,6 +6,7 @@ DATE=$(date +"%Y-%m-%d_%H-%M")
 
 SCRIPTS=(
   "./scripts/enrich-nutrition-details/ai-estimate-nutrition-details.py"
+  "./scripts/parse-fs-site/parse-journal-photos.py"
 )
 
 source "$SCRIPT_DIR/venv/bin/activate"

@@ -15,7 +15,7 @@ member_id = "81731212"
 out_dir = "./fatsecret_images"
 pages_to_scan = 10
 delay_between_requests = 1.0
-DAYS_LIMIT = 30
+DAYS_LIMIT = 5
 
 S3_REGION = "us-east-1"           # MinIO ignores this, but boto3 needs it
 S3_PREFIX = "uploads"            # optional path prefix inside bucket
