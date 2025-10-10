@@ -1,0 +1,4784 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "fatsectet-estimated-nutrients-stats",
+    "url": "/d/8e1a0db6-29cf-490d-b5af-898254c62885/fatsectet-estimated-nutrients-stats",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2025-08-11T12:01:37+03:00",
+    "updated": "2025-08-12T10:08:00+03:00",
+    "updatedBy": "admin",
+    "createdBy": "admin",
+    "version": 8,
+    "hasAcl": false,
+    "isFolder": false,
+    "apiVersion": "v0alpha1",
+    "folderId": 10,
+    "folderUid": "feurbvjsnhyiof",
+    "folderTitle": "Nutrients (AI)",
+    "folderUrl": "/dashboards/f/feurbvjsnhyiof/nutrients-ai",
+    "provisioned": false,
+    "provisionedExternalId": "",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    }
+  },
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 7,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 22,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Omega-3 Fatty Acids (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Omega-3 Fatty Acids (mg)",
+        "type": "status-history"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 27,
+        "panels": [],
+        "title": "Vitamins",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 2,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin A (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin A (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "id": 3,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin C (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin C (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 25
+        },
+        "id": 4,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin D (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin D (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 33
+        },
+        "id": 12,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin K (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin K (mcg)",
+        "type": "status-history"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 41
+        },
+        "id": 25,
+        "panels": [],
+        "title": "Minerals",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 42
+        },
+        "id": 6,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Calcium (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Ca - Calcium (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 50
+        },
+        "id": 7,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Iron (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Fe - Iron (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 58
+        },
+        "id": 8,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Magnesium (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Mg - Magnesium (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 66
+        },
+        "id": 9,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Potassium (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "K - Potassium (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 74
+        },
+        "id": 10,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Zinc (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Zn - Zinc (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 82
+        },
+        "id": 11,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Selenium (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Se - Selenium (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 90
+        },
+        "id": 21,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Iodine (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Iodine (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 98
+        },
+        "id": 24,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Chromium (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Cr - Chromium (mcg)",
+        "type": "status-history"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 106
+        },
+        "id": 26,
+        "panels": [],
+        "title": "B Vitamins",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 107
+        },
+        "id": 14,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Thiamin (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B1 - Thiamin (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 115
+        },
+        "id": 15,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Riboflavin (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B2 - Riboflavin (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 123
+        },
+        "id": 17,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Niacin (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B3 - Niacin (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 131
+        },
+        "id": 23,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Choline (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B4 - Choline (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 139
+        },
+        "id": 18,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Pantothenic Acid (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B5 - Pantothenic Acid (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 147
+        },
+        "id": 19,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin B6 (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin B6 (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 155
+        },
+        "id": 20,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Biotin (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B7 - Biotin (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 163
+        },
+        "id": 1,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": true,
+            "rawQuery": true,
+            "rawSql": "SELECT date, comment, percent_of_rda\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) and   user_id = ${user}\nand nutrient_name  = 'Inositol (mg)'\nORDER BY percent_of_rda",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Inositol (mg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B8 - Inositol (mg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 171
+        },
+        "id": 13,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Folate (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "B9 - Folate (mcg)",
+        "type": "status-history"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "aemczdulj81dsb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisPlacement": "auto",
+              "fillOpacity": 54,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Excellent": {
+                    "color": "semi-dark-green",
+                    "index": 4
+                  },
+                  "Fair": {
+                    "color": "orange",
+                    "index": 1
+                  },
+                  "Good": {
+                    "color": "yellow",
+                    "index": 2
+                  },
+                  "Great": {
+                    "color": "green",
+                    "index": 3
+                  },
+                  "High": {
+                    "color": "dark-green",
+                    "index": 5
+                  },
+                  "Low": {
+                    "color": "red",
+                    "index": 0
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Low\\).*",
+                  "result": {
+                    "color": "red",
+                    "index": 6
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Fair\\).*",
+                  "result": {
+                    "color": "orange",
+                    "index": 7
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Good\\).*",
+                  "result": {
+                    "color": "yellow",
+                    "index": 8
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Great\\).*",
+                  "result": {
+                    "color": "green",
+                    "index": 9
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(Excellent\\).*",
+                  "result": {
+                    "color": "semi-dark-green",
+                    "index": 10
+                  }
+                },
+                "type": "regex"
+              },
+              {
+                "options": {
+                  "pattern": ".*\\(High\\).*",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 11
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "max": -1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                },
+                {
+                  "color": "orange",
+                  "value": 40
+                },
+                {
+                  "color": "yellow",
+                  "value": 60
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                },
+                {
+                  "color": "semi-dark-green",
+                  "value": 100
+                },
+                {
+                  "color": "dark-green",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 179
+        },
+        "id": 5,
+        "options": {
+          "colWidth": 0.92,
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "rowHeight": 0.49,
+          "showValue": "auto",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aemczdulj81dsb"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n    date,\n    percent_of_rda || '% (' || comment || ')' AS label\n\nFROM personal_data.daily_micronutrient_summary\nWHERE $__timeFilter(date) \n  AND user_id = ${user}\n  AND nutrient_name = 'Vitamin B12 (mcg)'\nORDER BY date\n",
+            "refId": "B",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Vitamin B12 (mcg)",
+        "type": "status-history"
+      }
+    ],
+    "preload": false,
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "ya_aska",
+            "value": "1"
+          },
+          "definition": "SELECT DISTINCT u.fatsecret_user_id AS __text, u.id AS __value\nFROM personal_data.users u\nJOIN personal_data.weights w ON w.user_id = u.id\nORDER BY u.fatsecret_user_id;\n",
+          "name": "user",
+          "options": [],
+          "query": "SELECT DISTINCT u.fatsecret_user_id AS __text, u.id AS __value\nFROM personal_data.users u\nJOIN personal_data.weights w ON w.user_id = u.id\nORDER BY u.fatsecret_user_id;\n",
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-30d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Fatsectet Estimated nutrients Stats",
+    "uid": "8e1a0db6-29cf-490d-b5af-898254c62885",
+    "version": 8
+  }
+}
