@@ -3,6 +3,7 @@ import os
 import json
 import requests
 from pathlib import Path
+import re
 
 from dotenv import load_dotenv
 
@@ -28,12 +29,21 @@ def fetch_all_dashboards():
     return response.json()
 
 
+def mask_apitokens(data):
+    links = data.get("dashboard", {}).get("links", [])
+    for link in links:
+        url = link.get("url")
+        if url:
+            masked_url = re.sub(r"([?&]apitoken=)[^\"&]+", r"\1******", url)
+            link["url"] = masked_url
+    return data
+
 def export_dashboard(uid, title):
     """Export a single dashboard by UID."""
     url = f"{GRAFANA_URL}/api/dashboards/uid/{uid}"
     response = requests.get(url, headers=HEADERS)
     response.raise_for_status()
-    dashboard = response.json()
+    dashboard = mask_apitokens(response.json())
 
     # Sanitize title for filesystem
     safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in title)
@@ -58,6 +68,12 @@ def main():
     for item in dashboards:
         uid = item.get("uid")
         title = item.get("title", "unnamed_dashboard")
+
+        # Skip dashboards containing "Preview" in the title (case-insensitive)
+        if "preview" in title.lower():
+            print(f"⏭️  Skipped (preview): {title}")
+            continue
+
         try:
             export_dashboard(uid, title)
         except Exception as e:

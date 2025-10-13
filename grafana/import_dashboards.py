@@ -9,6 +9,7 @@ import subprocess
 
 GRAFANA_URL = os.environ.get("GRAFANA_URL")
 GRAFANA_API_KEY = os.environ.get("GRAFANA_API_KEY")
+GRAFANA_API_TOKEN = os.environ.get("GRAFANA_API_TOKEN")
 INPUT_DIR = Path(os.getenv("INPUT_DIR", "./dashboards"))
 
 
@@ -20,15 +21,26 @@ def import_dashboard(file_path, overwrite=False):
     meta = data.get("meta", {})
 
     # Always remove ID to avoid conflicts
-    dashboard.pop("id", None)
+    # dashboard.pop("id", None)
+
+
+    links = dashboard.get("links", [])
+
+    for link in links:
+            url = link.get("url")
+            if url and "apitoken=******" in url:
+                link["url"] = url.replace("apitoken=******", f"apitoken={GRAFANA_API_TOKEN}")
+                print(link["url"])
 
     if overwrite:
         # Keep same UID if exists, overwrite=True
         dashboard["title"] = dashboard.get("title", "Unnamed")
+        uid = dashboard["uid"]
     else:
         # Create preview version
-        dashboard["uid"] = generate_uid()
-        dashboard["title"] = f"{dashboard.get('title', 'Unnamed')} (Preview)"
+        uid = generate_uid()
+        dashboard["uid"] = uid
+        dashboard["title"] = f"{dashboard.get('title', 'Unnamed')} (Preview) - {uid}"
 
     latest_commit = get_latest_commit()
 
@@ -50,7 +62,7 @@ def import_dashboard(file_path, overwrite=False):
     if response.status_code == 200:
         action = "Overwritten" if overwrite else "Imported (preview)"
         title = dashboard["title"]
-        print(f"✅ {action}: '{title}' from {os.path.basename(file_path)}")
+        print(f"✅ {action}: '{title}' from {os.path.basename(file_path)}. UUID: {uid}")
     else:
         try:
             error = response.json()
