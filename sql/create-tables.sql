@@ -172,3 +172,12 @@ CREATE TABLE  IF NOT EXISTS personal_data.estimated_food_nutrients (
     chromium_mcg FLOAT
 );
 
+-- Dates to exclude from statistics across all dashboards
+CREATE TABLE IF NOT EXISTS personal_data.date_exclusions (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES personal_data.users(id) NOT NULL,
+    date DATE NOT NULL,
+    reason TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(user_id, date)
+);

@@ -10,6 +10,11 @@ WITH
     FROM
       personal_data.estimated_food_nutrients_v2 efn
       JOIN personal_data.nutrients n ON efn.nutrient_id = n.id
+      LEFT JOIN personal_data.date_exclusions de
+        ON de.user_id = efn.user_id
+       AND de.date = efn.date
+    WHERE
+      de.id IS NULL
     GROUP BY
       efn.user_id,
       efn.date,

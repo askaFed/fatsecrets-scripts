@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW personal_data.daily_micronutrient_summary AS
 WITH
   daily_intake AS (
     SELECT
-      user_id,
-      date,
+      n.user_id,
+      n.date,
       SUM(vitamin_a_mcg) AS vitamin_a_mcg,
       SUM(vitamin_c_mg) AS vitamin_c_mg,
       SUM(vitamin_d_mcg) AS vitamin_d_mcg,
@@ -29,10 +29,14 @@ WITH
       SUM(choline_mg) AS choline_mg,
       SUM(chromium_mcg) AS chromium_mcg
     FROM
-      personal_data.estimated_food_nutrients
+      personal_data.estimated_food_nutrients n
+  LEFT JOIN personal_data.date_exclusions de
+    ON de.user_id = n.user_id
+   AND de.date = n.date
+  WHERE de.id IS NULL
     GROUP BY
-      user_id,
-      date
+      n.user_id,
+      n.date
   )
 
 SELECT
