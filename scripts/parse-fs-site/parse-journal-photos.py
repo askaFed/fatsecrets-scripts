@@ -104,7 +104,7 @@ uploaded = 0
 
 for uuid, post_date_str in sorted(found.items()):
     img_url = f"https://m.ftscrt.com/food/{uuid}{suff}"
-    s3_key = f"{S3_PREFIX}/post_date={post_date_str}/{uuid}{suff}"
+    s3_key = f"{S3_PREFIX}/user_id=1/post_date={post_date_str}/{uuid}{suff}"
 
     # Skip if already exists
     if object_exists(s3_key):
