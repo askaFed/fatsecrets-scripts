@@ -12,7 +12,6 @@ from clients import ensure_bucket_exists, object_exists, upload_to_s3
 # ---------------------------------------------------------------------
 member_journal_base = "https://foods.fatsecret.com/Default.aspx"
 member_id = "81731212"
-out_dir = "./fatsecret_images"
 pages_to_scan = 10
 delay_between_requests = 1.0
 DAYS_LIMIT = 5
@@ -27,7 +26,6 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 }
 
-os.makedirs(out_dir, exist_ok=True)
 uuid_regex = re.compile(
     r"/food/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})"
 )
