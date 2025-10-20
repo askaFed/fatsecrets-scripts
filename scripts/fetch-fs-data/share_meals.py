@@ -8,19 +8,10 @@ def share_meal(user_from, user_to, meal_type, target_date):
 
     print(f"🔄 Sharing {meal_type or 'all'} meals from user {user_from} to user {user_to} on {target_date.strftime('%Y-%m-%d')}")
 
-    # Get access tokens for both users
-    print(f"🔑 Retrieving access tokens...")
-    try:
-        token_from, secret_from = get_access_tokens(user_from)
-        token_to, secret_to = get_access_tokens(user_to)
-    except ValueError as e:
-        print(f"❌ {e}")
-        return False
-
     # Fetch food entries from source user
     print(f"📥 Fetching food entries from user {user_from}...")
     try:
-        entries = get_food_entries_by_date_and_meal(token_from, secret_from, target_date, meal_type)
+        entries = get_food_entries_by_date_and_meal(user_from, target_date, meal_type)
 
         if not entries:
             print(f"ℹ️ No food entries found for user {user_from}" + (f" for meal {meal_type}" if meal_type else ""))
@@ -40,12 +31,7 @@ def share_meal(user_from, user_to, meal_type, target_date):
         try:
             print(f"  → Adding {entry.get('food_entry_name')} ({entry.get('number_of_units', 1)} units)...", end=" ")
 
-            add_food_entry(
-                token_to,
-                secret_to,
-                entry,
-                target_date
-            )
+            add_food_entry(user_to, entry, target_date)
             print("✅")
             successful += 1
             time.sleep(0.5)
@@ -59,8 +45,11 @@ def share_meal(user_from, user_to, meal_type, target_date):
     return failed == 0
 
 
-def get_food_entries_by_date(access_token, access_token_secret, date):
+def get_food_entries_by_date(user_id, date):
     """Fetch all food entries for a specific date"""
+    # Get access tokens for the user
+    access_token, access_token_secret, consumer_key, consumer_secret = get_access_tokens(user_id)
+    
     date_int = int(date.timestamp()) // 86400
 
     params = {
@@ -69,7 +58,7 @@ def get_food_entries_by_date(access_token, access_token_secret, date):
         "date": str(date_int)
     }
 
-    data = make_oauth_request(access_token, access_token_secret, params)
+    data = make_oauth_request(access_token, access_token_secret, consumer_key, consumer_secret, params)
 
     if "error" in data:
         raise Exception(f"FatSecret API error: {data['error']}")
@@ -84,24 +73,26 @@ def get_food_entries_by_date(access_token, access_token_secret, date):
 
     return entries
 
-def get_food_entries_by_date_and_meal(access_token, access_token_secret, date, meal_type):
+def get_food_entries_by_date_and_meal(user_id, date, meal_type):
     """Fetch food entries for a specific meal type on a given date"""
-    entries = get_food_entries_by_date(access_token, access_token_secret, date)
+    entries = get_food_entries_by_date(user_id, date)
 
     if not meal_type:
         return entries
 
     return [e for e in entries if e.get('meal', '').lower() == meal_type.lower()]
 
-def add_food_entry(access_token, access_token_secret, entry, date):
+def add_food_entry(user_id, entry, date):
     """Add a food entry for a user
 
     Args:
-        access_token: User's OAuth access token
-        access_token_secret: User's OAuth access token secret
+        user_id: User ID to add the food entry for
         entry: Food entry object containing food_id, serving_id, food_entry_name, meal, number_of_units
         date: DateTime object for the entry date
     """
+    # Get access tokens for the user
+    access_token, access_token_secret, consumer_key, consumer_secret = get_access_tokens(user_id)
+    
     date_int = int(date.timestamp()) // 86400
 
     # Normalize meal type to lowercase
@@ -118,7 +109,7 @@ def add_food_entry(access_token, access_token_secret, entry, date):
         "number_of_units": str(entry.get('number_of_units', 1))
     }
 
-    data = make_oauth_request(access_token, access_token_secret, params)
+    data = make_oauth_request(access_token, access_token_secret, consumer_key, consumer_secret, params)
 
     if "error" in data:
         raise Exception(f"FatSecret API error: {data['error']}")

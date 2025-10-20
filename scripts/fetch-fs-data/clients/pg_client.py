@@ -29,7 +29,7 @@ def get_all_users():
         conn = get_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute("""
-            SELECT u.id, u.fatsecret_user_id, t.access_token, t.access_token_secret
+            SELECT u.id, u.fatsecret_user_id, t.access_token, t.access_token_secret, t.consumer_key, t.consumer_secret
             FROM personal_data.users u
             JOIN personal_data.access_tokens t ON u.id = t.user_id
         """)
@@ -49,7 +49,7 @@ def get_access_tokens(user_id):
 
     try:
         cur.execute(
-            "SELECT access_token, access_token_secret "
+            "SELECT access_token, access_token_secret, consumer_key, consumer_secret "
             "FROM personal_data.access_tokens "
             "WHERE user_id = %s", (user_id,)
         )
@@ -58,7 +58,7 @@ def get_access_tokens(user_id):
         if not result:
             raise ValueError(f"No access tokens found for user {user_id}")
 
-        return result['access_token'], result['access_token_secret']
+        return result['access_token'], result['access_token_secret'], result['consumer_key'], result['consumer_secret']
     finally:
         cur.close()
         conn.close()

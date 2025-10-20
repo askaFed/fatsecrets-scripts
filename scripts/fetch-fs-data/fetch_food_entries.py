@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta, timezone
 import time
-from clients import insert_values, get_all_users, make_oauth_request
+from clients import insert_values, get_all_users, make_oauth_request, get_access_tokens
 import argparse
 
 
-def get_food_entries(user_id, access_token, access_token_secret, start_date, end_date):
+def get_food_entries(user_id, start_date, end_date):
+    # Get access tokens for the user
+    access_token, access_token_secret, consumer_key, consumer_secret = get_access_tokens(user_id)
+    
     all_entries = []
     current_date = start_date
 
@@ -24,7 +27,7 @@ def get_food_entries(user_id, access_token, access_token_secret, start_date, end
             }
 
             try:
-                data = make_oauth_request(access_token, access_token_secret, params)
+                data = make_oauth_request(access_token, access_token_secret, consumer_key, consumer_secret, params)
 
                 if "error" in data:
                     if data["error"].get("code") == 12:
@@ -166,8 +169,6 @@ if __name__ == "__main__":
         print(f"👤 Processing user {user['id']} ({user['fatsecret_user_id']})")
         user_entries = get_food_entries(
             user['id'],
-            user['access_token'],
-            user['access_token_secret'],
             start,
             end
         )

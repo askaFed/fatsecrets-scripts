@@ -64,6 +64,8 @@ CREATE TABLE IF NOT EXISTS personal_data.access_tokens (
     user_id INT REFERENCES personal_data.users(id),
     access_token TEXT NOT NULL,
     access_token_secret TEXT NOT NULL,
+    consumer_key TEXT NOT NULL,
+    consumer_secret TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(user_id)
