@@ -2,8 +2,8 @@
 
 import os
 import psycopg2
-from psycopg2.extras import execute_values, RealDictCursor
 from dotenv import load_dotenv
+from psycopg2.extras import execute_values, RealDictCursor
 
 load_dotenv()
 
@@ -40,6 +40,27 @@ def get_all_users():
         return []
     finally:
         cursor.close()
+        conn.close()
+
+
+def get_access_tokens(user_id):
+    conn = get_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        cur.execute(
+            "SELECT access_token, access_token_secret "
+            "FROM personal_data.access_tokens "
+            "WHERE user_id = %s", (user_id,)
+        )
+        result = cur.fetchone()
+
+        if not result:
+            raise ValueError(f"No access tokens found for user {user_id}")
+
+        return result['access_token'], result['access_token_secret']
+    finally:
+        cur.close()
         conn.close()
 
 
